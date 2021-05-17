@@ -20,7 +20,7 @@ local function on_entity_died(event)
 
     local ic = IC.get()
 
-    if entity.type == 'car' or entity.name == 'spidertron' then
+    if entity.type == 'car' or entity.name == 'spidertron' or entity.name == 'spider-vehicle' then
         Functions.kill_car(ic, entity)
     end
 
@@ -39,7 +39,7 @@ local function on_player_mined_entity(event)
 
     Minimap.kill_minimap(game.players[event.player_index])
 
-    if entity.type == 'car' or entity.name == 'spidertron' then
+    if entity.type == 'car' or entity.name == 'spidertron' or entity.name == 'spider-vehicle' then
         Functions.save_car(ic, event)
     end
 
@@ -56,7 +56,7 @@ local function on_robot_mined_entity(event)
     end
     local ic = IC.get()
 
-    if entity.type == 'car' or entity.name == 'spidertron' then
+    if entity.type == 'car' or entity.name == 'spidertron' or entity.name == 'spider-vehicle' then
         Functions.kill_car(ic, entity)
     end
 
@@ -71,7 +71,7 @@ local function on_built_entity(event)
     if not ce or not ce.valid then
         return
     end
-    if not ce.type == 'car' or not ce.name == 'spidertron' then
+    if not ce.type == 'car' or not ce.name == 'spider-vehicle' then
         return
     end
 

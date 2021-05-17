@@ -271,8 +271,8 @@ local function upgrade_surface(ic, player, entity)
     if saved_surfaces[player.index] then
         local c = get_owner_car_object(cars, player)
         local car = ic.cars[c]
-        if ce.name == 'spidertron' then
-            car.name = 'spidertron'
+        if ce.name == 'spider-vehicle' then
+            car.name = 'spider-vehicle'
         elseif ce.name == 'tank' then
             car.name = 'tank'
         end
@@ -538,9 +538,13 @@ local function construct_doors(ic, car)
             p = {x = x, y = area.left_top.y + 10}
         elseif car.name == 'tank' then
             p = {x = x, y = area.left_top.y + 20}
-        elseif car.name == 'spidertron' then
+        elseif car.name == 'spider-vehicle' then
             p = {x = x, y = area.left_top.y + 30}
             main_tile_name = 'tutorial-grid'
+        else
+            log('error: unknown car name')
+            log(car.name)
+            p = {x = x, y = area.left_top.y + 30}
         end
         if p.x < 0 then
             surface.set_tiles({{name = main_tile_name, position = {x = p.x + 0.5, y = p.y}}}, true)
@@ -739,7 +743,7 @@ function Public.create_car_room(ic, car)
         surface.create_entity({name = 'sand-rock-big', position = {0, 20}})
     elseif entity_name == 'tank' then
         surface.create_entity({name = 'sand-rock-big', position = {0, 40}})
-    elseif entity_name == 'spidertron' then
+    elseif entity_name == 'spider-vehicle' then
         surface.create_entity({name = 'sand-rock-big', position = {0, 60}})
         main_tile_name = 'tutorial-grid'
     end
@@ -833,8 +837,8 @@ function Public.create_car(ic, event)
 
     if
         get_owner_car_name(ic, player) == 'car' and ce.name == 'tank' or
-            get_owner_car_name(ic, player) == 'car' and ce.name == 'spidertron' or
-            get_owner_car_name(ic, player) == 'tank' and ce.name == 'spidertron'
+            get_owner_car_name(ic, player) == 'car' and ce.name == 'spider-vehicle' or
+            get_owner_car_name(ic, player) == 'tank' and ce.name == 'spider-vehicle'
      then
         upgrade_surface(ic, player, ce)
         render_owner_text(player, ce)
@@ -1070,7 +1074,7 @@ function Public.use_door_with_entity(ic, player, door)
         local x_vector = (door.position.x / math.abs(door.position.x)) * 2
         local position = {car.entity.position.x + x_vector, car.entity.position.y}
         local surface_position = surface.find_non_colliding_position('character', position, 128, 0.5)
-        if car.entity.type == 'car' or car.entity.name == 'spidertron' then
+        if car.name == 'spider-vehicle' then
             player.teleport(surface_position, surface)
             player_data.state = 2
             player.driving = true
